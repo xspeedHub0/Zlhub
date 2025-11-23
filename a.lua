@@ -1171,10 +1171,10 @@ function Library:CreateFloatingIcon(funcName, displayName, callback)
     
     -- Posiciones predefinidas
     local gridPositions = {
-        Fly = {x = 620, y = 180},
-        boogieFloat = {x = 620, y = 140},
+        Fly = {x = 620, y = 140},
+        boogieFloat = {x = 620, y = 100},
         WebSlinger = {x = 20, y = 120},
-        AutoLazer = {x = 620, y = 100}
+        AutoLazer = {x = 20, y = 100}
     }
     
     local pos = gridPositions[funcName] or {x = math.random(100, 400), y = math.random(100, 400)}
