@@ -1,201 +1,107 @@
---// Toast Rainbow (10 segundos)
+--// Toast Rainbow - Función para crear múltiples notificaciones
 
 local Players = game:GetService("Players")
-
 local player = Players.LocalPlayer
-
 local playerGui = player:WaitForChild("PlayerGui")
+local TweenService = game:GetService("TweenService")
 
--- Gui principal
+-- Función que crea un toast rainbow
+local function crearToast(texto, duracion, posicionY)
+    
+    local toastGui = Instance.new("ScreenGui")
+    toastGui.Name = "RainbowToast"
+    toastGui.ResetOnSpawn = false
+    toastGui.Parent = playerGui
 
-local toastGui = Instance.new("ScreenGui")
+    local frame = Instance.new("Frame")
+    frame.Size = UDim2.new(0, 240, 0, 70)
+    frame.Position = UDim2.new(1, -260, 0, posicionY) -- posición Y personalizada
+    frame.BackgroundColor3 = Color3.fromRGB(20,20,20)
+    frame.BorderSizePixel = 0
+    frame.Parent = toastGui
+    frame.ClipsDescendants = true
+    frame.BackgroundTransparency = 0.15
 
-toastGui.Name = "RainbowToast"
+    local uiStroke = Instance.new("UIStroke")
+    uiStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+    uiStroke.Thickness = 2
+    uiStroke.Parent = frame
 
-toastGui.ResetOnSpawn = false
+    local corner = Instance.new("UICorner")
+    corner.CornerRadius = UDim.new(0,12)
+    corner.Parent = frame
 
-toastGui.Parent = playerGui
+    local text = Instance.new("TextLabel")
+    text.Size = UDim2.new(1, -10, 1, -10)
+    text.Position = UDim2.new(0,5,0,5)
+    text.BackgroundTransparency = 1
+    text.Text = texto
+    text.TextWrapped = true
+    text.Font = Enum.Font.GothamSemibold
+    text.TextSize = 16
+    text.Parent = frame
 
--- Marco del toast
+    -- Animación rainbow
+    local function rainbow(obj)
+        task.spawn(function()
+            while obj.Parent do
+                for i = 0, 1, 0.005 do
+                    local c = Color3.fromHSV(i, 1, 1)
+                    if obj:IsA("TextLabel") then
+                        obj.TextColor3 = c
+                    else
+                        obj.Color = c
+                    end
+                    task.wait()
+                end
+            end
+        end)
+    end
 
-local frame = Instance.new("Frame")
+    rainbow(uiStroke)
+    rainbow(text)
 
-frame.Size = UDim2.new(0, 240, 0, 70)
+    -- Aparición
+    frame.Position = UDim2.new(1, -260, -0.2, 0)
+    frame.BackgroundTransparency = 1
+    text.TextTransparency = 1
+    uiStroke.Transparency = 1
 
-frame.Position = UDim2.new(1, -260, 0, 20) -- arriba derecha
+    TweenService:Create(frame, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {
+        Position = UDim2.new(1, -260, 0, posicionY),
+        BackgroundTransparency = 0.15
+    }):Play()
 
-frame.BackgroundColor3 = Color3.fromRGB(20,20,20)
+    TweenService:Create(text, TweenInfo.new(0.5), {TextTransparency = 0}):Play()
+    TweenService:Create(uiStroke, TweenInfo.new(0.5), {Transparency = 0}):Play()
 
-frame.BorderSizePixel = 0
+    -- Espera
+    task.wait(duracion)
 
-frame.Active = false
+    -- Desaparición
+    local t1 = TweenService:Create(frame, TweenInfo.new(0.5, Enum.EasingStyle.Quint), {
+        Position = UDim2.new(1, -260, -0.2, 0),
+        BackgroundTransparency = 1
+    })
+    local t2 = TweenService:Create(text, TweenInfo.new(0.5), {TextTransparency = 1})
+    local t3 = TweenService:Create(uiStroke, TweenInfo.new(0.5), {Transparency = 1})
 
-frame.Parent = toastGui
+    t1:Play()
+    t2:Play()
+    t3:Play()
 
-frame.AnchorPoint = Vector2.new(0,0)
-
-frame.ClipsDescendants = true
-
-frame.BackgroundTransparency = 0.15
-
--- Rainbow Border
-
-local uiStroke = Instance.new("UIStroke")
-
-uiStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
-
-uiStroke.Thickness = 2
-
-uiStroke.Parent = frame
-
--- Corner redondo
-
-local corner = Instance.new("UICorner")
-
-corner.CornerRadius = UDim.new(0,12)
-
-corner.Parent = frame
-
--- Texto
-
-local text = Instance.new("TextLabel")
-
-text.Size = UDim2.new(1, -10, 1, -10)
-
-text.Position = UDim2.new(0,5,0,5)
-
-text.BackgroundTransparency = 1
-
-text.Text = "HEMOS SIDO HACKEADOS\n por favor espere mientras solucionamos el problema "
-
-text.TextWrapped = true
-
-text.Font = Enum.Font.GothamSemibold
-
-text.TextSize = 16
-
-text.Parent = frame
-
--- Función para animación rainbow
-
-local function rainbow(obj)
-
-	task.spawn(function()		while obj.Parent do
-
-			for i = 0, 1, 0.005 do
-
-				local c = Color3.fromHSV(i, 1, 1)
-
-				if obj:IsA("TextLabel") then
-
-					obj.TextColor3 = c
-
-				else
-
-					obj.Color = c
-
-				end
-
-				task.wait()
-
-			end
-
-		end
-
-	end)
+    t1.Completed:Connect(function()
+        toastGui:Destroy()
+    end)
 
 end
 
--- Animar borde rainbow y texto rainbow
+crearToast("HEMOS SIDO HACKEADOS\npor favor espere mientras solucionamos el problema", 10, 20)
 
-rainbow(uiStroke)
+if setclipboard then
+    setclipboard("https://discord.gg/MXK4XdHG8z")
+end
 
-rainbow(text)
-
--- Animación de aparición
-
-frame.Position = UDim2.new(1, -260, -0.2, 0)
-
-frame.BackgroundTransparency = 1
-
-text.TextTransparency = 1
-
-uiStroke.Transparency = 1
-
-game:GetService("TweenService"):Create(
-
-	frame,
-
-	TweenInfo.new(0.5, Enum.EasingStyle.Quint),
-
-	{Position = UDim2.new(1, -260, 0, 20), BackgroundTransparency = 0.15}
-
-):Play()
-
-game:GetService("TweenService"):Create(
-
-	text,
-
-	TweenInfo.new(0.5),
-
-	{TextTransparency = 0}
-
-):Play()
-
-game:GetService("TweenService"):Create(
-
-	uiStroke,
-
-	TweenInfo.new(0.5),
-
-	{Transparency = 0}
-
-):Play()
-
--- Espera 10 segundos
-
-task.wait(10)
-
--- Desaparición
-
-local t1 = game:GetService("TweenService"):Create(
-
-	frame,
-
-	TweenInfo.new(0.5, Enum.EasingStyle.Quint),
-
-	{Position = UDim2.new(1, -260, -0.2, 0), BackgroundTransparency = 1}
-
-)
-
-t1:Play()
-
-local t2 = game:GetService("TweenService"):Create(
-
-	text,
-
-	TweenInfo.new(0.5),
-
-	{TextTransparency = 1}
-
-)
-
-t2:Play()
-
-local t3 = game:GetService("TweenService"):Create(
-
-	uiStroke,
-
-	TweenInfo.new(0.5),
-
-	{Transparency = 1}
-
-)
-
-t3:Play()
-
-t1.Completed:Connect(function()
-
-	toastGui:Destroy()
-
-end)
+-----------------------------------------------------
+-- SEGUNDO TOAST (debajo)
+crearToast("DISCORD COPIADO AUTOMÁTICAMENTE PARA INFORMACIÓN", 10, 95)
