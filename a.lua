@@ -510,101 +510,201 @@ end)
         end
         
         -- Toggle
-        function Elements:Toggle(text, default, callback)
-            local Toggle = Instance.new("TextButton")
-            Toggle.Name = "Toggle"
-            Toggle.Parent = Page
-            Toggle.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
-            Toggle.BorderSizePixel = 0
-            Toggle.Size = UDim2.new(1, -6, 0, 34)
-            Toggle.AutoButtonColor = false
-            Toggle.Font = Enum.Font.SourceSans
-            Toggle.Text = ""
-            Toggle.TextColor3 = Color3.fromRGB(0, 0, 0)
-            Toggle.TextSize = 14.000
+-- Toggle con animación de switch estilo iOS
+function Elements:Toggle(text, default, callback)
+    local Toggle = Instance.new("TextButton")
+    Toggle.Name = "Toggle"
+    Toggle.Parent = Page
+    Toggle.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+    Toggle.BorderSizePixel = 0
+    Toggle.Size = UDim2.new(1, -6, 0, 34)
+    Toggle.AutoButtonColor = false
+    Toggle.Font = Enum.Font.SourceSans
+    Toggle.Text = ""
+    Toggle.TextColor3 = Color3.fromRGB(0, 0, 0)
+    Toggle.TextSize = 14.000
+    
+    local ToggleCorner = Instance.new("UICorner")
+    ToggleCorner.CornerRadius = UDim.new(0, 6)
+    ToggleCorner.Parent = Toggle
+    
+    local Title = Instance.new("TextLabel")
+    Title.Name = "Title"
+    Title.Parent = Toggle
+    Title.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    Title.BackgroundTransparency = 1.000
+    Title.Position = UDim2.new(0, 8, 0, 0)
+    Title.Size = UDim2.new(1, -6, 1, 0)
+    Title.Font = Enum.Font.Gotham
+    Title.Text = text or "Toggle"
+    Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+    Title.TextSize = 14.000
+    Title.TextXAlignment = Enum.TextXAlignment.Left
+    
+    -- Switch Container (estilo iOS)
+    local SwitchContainer = Instance.new("Frame")
+    SwitchContainer.Name = "SwitchContainer"
+    SwitchContainer.Parent = Toggle
+    SwitchContainer.AnchorPoint = Vector2.new(1, 0.5)
+    SwitchContainer.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    SwitchContainer.BorderSizePixel = 0
+    SwitchContainer.Position = UDim2.new(1, -8, 0.5, 0)
+    SwitchContainer.Size = UDim2.new(0, 36, 0, 20)
+    
+    local SwitchContainerCorner = Instance.new("UICorner")
+    SwitchContainerCorner.CornerRadius = UDim.new(1, 0)
+    SwitchContainerCorner.Parent = SwitchContainer
+    
+    local SwitchContainerStroke = Instance.new("UIStroke")
+    SwitchContainerStroke.Parent = SwitchContainer
+    SwitchContainerStroke.Color = Color3.fromRGB(80, 80, 80)
+    SwitchContainerStroke.Thickness = 1
+    
+    -- Switch Circle (botón deslizante)
+    local SwitchCircle = Instance.new("Frame")
+    SwitchCircle.Name = "SwitchCircle"
+    SwitchCircle.Parent = SwitchContainer
+    SwitchCircle.AnchorPoint = Vector2.new(0, 0.5)
+    SwitchCircle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    SwitchCircle.BorderSizePixel = 0
+    SwitchCircle.Position = UDim2.new(0, 2, 0.5, 0)
+    SwitchCircle.Size = UDim2.new(0, 16, 0, 16)
+    
+    local SwitchCircleCorner = Instance.new("UICorner")
+    SwitchCircleCorner.CornerRadius = UDim.new(1, 0)
+    SwitchCircleCorner.Parent = SwitchCircle
+    
+    local SwitchCircleStroke = Instance.new("UIStroke")
+    SwitchCircleStroke.Parent = SwitchCircle
+    SwitchCircleStroke.Color = Color3.fromRGB(200, 200, 200)
+    SwitchCircleStroke.Thickness = 1
+    
+    local toggled = default or false
+    
+    -- Función para actualizar la animación del switch
+    local function updateSwitchAnimation()
+        if toggled then
+            -- Estado ACTIVADO
+            TweenService:Create(SwitchContainer, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+                BackgroundColor3 = Color3.fromRGB(0, 170, 255)
+            }):Play()
             
-            local ToggleCorner = Instance.new("UICorner")
-            ToggleCorner.CornerRadius = UDim.new(0, 6)
-            ToggleCorner.Parent = Toggle
+            TweenService:Create(SwitchContainerStroke, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+                Color = Color3.fromRGB(0, 140, 255)
+            }):Play()
             
-            local Title = Instance.new("TextLabel")
-            Title.Name = "Title"
-            Title.Parent = Toggle
-            Title.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-            Title.BackgroundTransparency = 1.000
-            Title.Position = UDim2.new(0, 8, 0, 0)
-            Title.Size = UDim2.new(1, -6, 1, 0)
-            Title.Font = Enum.Font.Gotham
-            Title.Text = text or "Toggle"
-            Title.TextColor3 = Color3.fromRGB(255, 255, 255)
-            Title.TextSize = 14.000
-            Title.TextXAlignment = Enum.TextXAlignment.Left
+            TweenService:Create(SwitchCircle, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+                Position = UDim2.new(1, -18, 0.5, 0),
+                BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+            }):Play()
             
-            local ToggleFrame = Instance.new("Frame")
-            ToggleFrame.Name = "ToggleFrame"
-            ToggleFrame.Parent = Toggle
-            ToggleFrame.AnchorPoint = Vector2.new(1, 0.5)
-            ToggleFrame.BackgroundColor3 = Color3.fromRGB(161, 12, 59)
-            ToggleFrame.BackgroundTransparency = 1.000
-            ToggleFrame.BorderSizePixel = 0
-            ToggleFrame.Position = UDim2.new(1, -8, 0.5, 0)
-            ToggleFrame.Size = UDim2.new(0, 14, 0, 14)
+            TweenService:Create(SwitchCircleStroke, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+                Color = Color3.fromRGB(230, 230, 230)
+            }):Play()
+        else
+            -- Estado DESACTIVADO
+            TweenService:Create(SwitchContainer, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+                BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+            }):Play()
             
-            local ToggleCorner2 = Instance.new("UICorner")
-            ToggleCorner2.CornerRadius = UDim.new(0, 3)
-            ToggleCorner2.Parent = ToggleFrame
+            TweenService:Create(SwitchContainerStroke, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+                Color = Color3.fromRGB(80, 80, 80)
+            }):Play()
             
-            local Check = Instance.new("ImageLabel")
-            Check.Name = "Check"
-            Check.Parent = ToggleFrame
-            Check.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-            Check.BackgroundTransparency = 1.000
-            Check.Position = UDim2.new(-0.214285731, 0, -0.214285731, 0)
-            Check.Size = UDim2.new(0, 20, 0, 20)
-            Check.Image = "http://www.roblox.com/asset/?id=7812909048"
-            Check.ImageTransparency = 1
-            Check.ScaleType = Enum.ScaleType.Fit
+            TweenService:Create(SwitchCircle, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+                Position = UDim2.new(0, 2, 0.5, 0),
+                BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+            }):Play()
             
-            local ToggleStroke = Instance.new("UIStroke")
-            ToggleStroke.Parent = ToggleFrame
-            ToggleStroke.LineJoinMode = Enum.LineJoinMode.Round
-            ToggleStroke.Thickness = 2
-            ToggleStroke.Color = Color3.fromRGB(161, 12, 59)
-            
-            local toggled = default or false
-            
-            if toggled then
-                TweenService:Create(ToggleFrame, TweenInfo.new(.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundTransparency = 0}):Play()
-                TweenService:Create(Check, TweenInfo.new(.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {ImageTransparency = 0}):Play()
-            end
-            
-            Toggle.MouseEnter:Connect(function()
-                TweenService:Create(Toggle, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(40, 40, 40)}):Play()
-            end)
-            
-            Toggle.MouseLeave:Connect(function()
-                TweenService:Create(Toggle, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {BackgroundColor3 = Color3.fromRGB(35, 35, 35)}):Play()
-            end)
-            
-            Toggle.MouseButton1Click:Connect(function()
-                toggled = not toggled
-                
-                if toggled then
-                    TweenService:Create(ToggleFrame, TweenInfo.new(.1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundTransparency = 0}):Play()
-                    TweenService:Create(Check, TweenInfo.new(.1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {ImageTransparency = 0}):Play()
-                else
-                    TweenService:Create(ToggleFrame, TweenInfo.new(.1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundTransparency = 1}):Play()
-                    TweenService:Create(Check, TweenInfo.new(.1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {ImageTransparency = 1}):Play()
-                end
-                
-                callback(toggled)
-            end)
-            
-            -- Mobile support
-            Toggle.TouchTap:Connect(function()
-                Toggle.MouseButton1Click:Fire()
-            end)
+            TweenService:Create(SwitchCircleStroke, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+                Color = Color3.fromRGB(200, 200, 200)
+            }):Play()
         end
+    end
+    
+    -- Configurar estado inicial
+    if toggled then
+        SwitchContainer.BackgroundColor3 = Color3.fromRGB(0, 170, 255)
+        SwitchContainerStroke.Color = Color3.fromRGB(0, 140, 255)
+        SwitchCircle.Position = UDim2.new(1, -18, 0.5, 0)
+    else
+        SwitchContainer.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+        SwitchContainerStroke.Color = Color3.fromRGB(80, 80, 80)
+        SwitchCircle.Position = UDim2.new(0, 2, 0.5, 0)
+    end
+    
+    -- Efectos hover
+    Toggle.MouseEnter:Connect(function()
+        TweenService:Create(Toggle, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+            BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+        }):Play()
+    end)
+    
+    Toggle.MouseLeave:Connect(function()
+        TweenService:Create(Toggle, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
+            BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+        }):Play()
+    end)
+    
+    -- Click functionality
+    Toggle.MouseButton1Click:Connect(function()
+        toggled = not toggled
+        updateSwitchAnimation()
+        callback(toggled)
+    end)
+    
+    -- Efecto de pulsación en el círculo
+    local function circlePressEffect()
+        TweenService:Create(SwitchCircle, TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+            Size = UDim2.new(0, 14, 0, 14)
+        }):Play()
+        
+        task.wait(0.1)
+        
+        TweenService:Create(SwitchCircle, TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+            Size = UDim2.new(0, 16, 0, 16)
+        }):Play()
+    end
+    
+    -- Click en el switch directamente
+    SwitchContainer.MouseButton1Click:Connect(function()
+        toggled = not toggled
+        circlePressEffect()
+        updateSwitchAnimation()
+        callback(toggled)
+    end)
+    
+    SwitchCircle.MouseButton1Click:Connect(function()
+        toggled = not toggled
+        circlePressEffect()
+        updateSwitchAnimation()
+        callback(toggled)
+    end)
+    
+    -- Mobile support
+    Toggle.TouchTap:Connect(function()
+        Toggle.MouseButton1Click:Fire()
+    end)
+    
+    SwitchContainer.TouchTap:Connect(function()
+        SwitchContainer.MouseButton1Click:Fire()
+    end)
+    
+    -- Función para cambiar el estado externamente
+    local toggleFunctions = {}
+    
+    function toggleFunctions:SetState(newState)
+        toggled = newState
+        updateSwitchAnimation()
+        callback(toggled)
+    end
+    
+    function toggleFunctions:GetState()
+        return toggled
+    end
+    
+    return toggleFunctions
+end
         
         -- Label
         function Elements:Label(text)
@@ -1171,10 +1271,10 @@ function Library:CreateFloatingIcon(funcName, displayName, callback)
     
     -- Posiciones predefinidas
     local gridPositions = {
-        Fly = {x = 620, y = 140},
-        boogieFloat = {x = 620, y = 100},
+        Fly = {x = 620, y = 180},
+        boogieFloat = {x = 620, y = 140},
         WebSlinger = {x = 20, y = 120},
-        AutoLazer = {x = 20, y = 100}
+        AutoLazer = {x = 620, y = 100}
     }
     
     local pos = gridPositions[funcName] or {x = math.random(100, 400), y = math.random(100, 400)}
