@@ -624,7 +624,7 @@ function Elements:Toggle(text, default, callback)
     
     -- Configurar estado inicial
     if toggled then
-        SwitchContainer.BackgroundColor3 = Color3.fromRGB(0, 170, 255)
+        SwitchContainer.BackgroundColor3 = Color3.fromRGB(136, 8, 8)
         SwitchContainerStroke.Color = Color3.fromRGB(0, 140, 255)
         SwitchCircle.Position = UDim2.new(1, -18, 0.5, 0)
     else
