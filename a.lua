@@ -683,6 +683,31 @@ SwitchCircle.InputBegan:Connect(function(input)
         callback(toggled)
     end
 end)
+    
+    -- Mobile support
+    Toggle.TouchTap:Connect(function()
+        Toggle.MouseButton1Click:Fire()
+    end)
+    
+    SwitchContainer.TouchTap:Connect(function()
+        SwitchContainer.MouseButton1Click:Fire()
+    end)
+    
+    -- Función para cambiar el estado externamente
+    local toggleFunctions = {}
+    
+    function toggleFunctions:SetState(newState)
+        toggled = newState
+        updateSwitchAnimation()
+        callback(toggled)
+    end
+    
+    function toggleFunctions:GetState()
+        return toggled
+    end
+    
+    return toggleFunctions
+end
         
         -- Label
         function Elements:Label(text)
