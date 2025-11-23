@@ -510,134 +510,101 @@ end)
         end
         
         -- Toggle
--- Toggle con animación de switch
--- Toggle con animación de switch (CORREGIDO)
-function Elements:Toggle(text, default, callback)
-    local Toggle = Instance.new("TextButton")
-    Toggle.Name = "Toggle"
-    Toggle.Parent = Page
-    Toggle.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
-    Toggle.BorderSizePixel = 0
-    Toggle.Size = UDim2.new(1, -6, 0, 34)
-    Toggle.AutoButtonColor = false
-    Toggle.Font = Enum.Font.SourceSans
-    Toggle.Text = ""
-    Toggle.TextColor3 = Color3.fromRGB(0, 0, 0)
-    Toggle.TextSize = 14.000
-    
-    local ToggleCorner = Instance.new("UICorner")
-    ToggleCorner.CornerRadius = UDim.new(0, 6)
-    ToggleCorner.Parent = Toggle
-    
-    local Title = Instance.new("TextLabel")
-    Title.Name = "Title"
-    Title.Parent = Toggle
-    Title.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-    Title.BackgroundTransparency = 1.000
-    Title.Position = UDim2.new(0, 8, 0, 0)
-    Title.Size = UDim2.new(1, -6, 1, 0)
-    Title.Font = Enum.Font.Gotham
-    Title.Text = text or "Toggle"
-    Title.TextColor3 = Color3.fromRGB(255, 255, 255)
-    Title.TextSize = 14.000
-    Title.TextXAlignment = Enum.TextXAlignment.Left
-    
-    -- Switch Container
-    local SwitchContainer = Instance.new("Frame")
-    SwitchContainer.Name = "SwitchContainer"
-    SwitchContainer.Parent = Toggle
-    SwitchContainer.AnchorPoint = Vector2.new(1, 0.5)
-    SwitchContainer.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
-    SwitchContainer.BorderSizePixel = 0
-    SwitchContainer.Position = UDim2.new(1, -8, 0.5, 0)
-    SwitchContainer.Size = UDim2.new(0, 36, 0, 20)
-    SwitchContainer.ZIndex = 2
-    
-    local SwitchContainerCorner = Instance.new("UICorner")
-    SwitchContainerCorner.CornerRadius = UDim.new(1, 0)
-    SwitchContainerCorner.Parent = SwitchContainer
-    
-    -- Switch Background (para el color cuando está activado)
-    local SwitchBackground = Instance.new("Frame")
-    SwitchBackground.Name = "SwitchBackground"
-    SwitchBackground.Parent = SwitchContainer
-    SwitchBackground.BackgroundColor3 = Color3.fromRGB(232, 17, 85)
-    SwitchBackground.BackgroundTransparency = 1
-    SwitchBackground.BorderSizePixel = 0
-    SwitchBackground.Size = UDim2.new(1, 0, 1, 0)
-    SwitchBackground.ZIndex = 1
-    
-    local SwitchBackgroundCorner = Instance.new("UICorner")
-    SwitchBackgroundCorner.CornerRadius = UDim.new(1, 0)
-    SwitchBackgroundCorner.Parent = SwitchBackground
-    
-    -- Switch Knob (LA BOLA - debe tener el ZIndex más alto)
-    local SwitchKnob = Instance.new("Frame")
-    SwitchKnob.Name = "SwitchKnob"
-    SwitchKnob.Parent = SwitchContainer
-    SwitchKnob.AnchorPoint = Vector2.new(0, 0.5)
-    SwitchKnob.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-    SwitchKnob.BorderSizePixel = 0
-    SwitchKnob.Position = UDim2.new(0, 2, 0.5, 0)
-    SwitchKnob.Size = UDim2.new(0, 16, 0, 16)
-    SwitchKnob.ZIndex = 3  -- Este es el más importante
-    
-    local SwitchKnobCorner = Instance.new("UICorner")
-    SwitchKnobCorner.CornerRadius = UDim.new(1, 0)
-    SwitchKnobCorner.Parent = SwitchKnob
-    
-    local toggled = default or false
-    
-    -- Función para actualizar el estado del toggle
-    local function updateToggleState()
-        if toggled then
-            -- Animación cuando se activa
-            TweenService:Create(SwitchKnob, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
-                Position = UDim2.new(1, -18, 0.5, 0)
-            }):Play()
+        function Elements:Toggle(text, default, callback)
+            local Toggle = Instance.new("TextButton")
+            Toggle.Name = "Toggle"
+            Toggle.Parent = Page
+            Toggle.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+            Toggle.BorderSizePixel = 0
+            Toggle.Size = UDim2.new(1, -6, 0, 34)
+            Toggle.AutoButtonColor = false
+            Toggle.Font = Enum.Font.SourceSans
+            Toggle.Text = ""
+            Toggle.TextColor3 = Color3.fromRGB(0, 0, 0)
+            Toggle.TextSize = 14.000
             
-            TweenService:Create(SwitchBackground, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
-                BackgroundTransparency = 0
-            }):Play()
-        else
-            -- Animación cuando se desactiva
-            TweenService:Create(SwitchKnob, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
-                Position = UDim2.new(0, 2, 0.5, 0)
-            }):Play()
+            local ToggleCorner = Instance.new("UICorner")
+            ToggleCorner.CornerRadius = UDim.new(0, 6)
+            ToggleCorner.Parent = Toggle
             
-            TweenService:Create(SwitchBackground, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
-                BackgroundTransparency = 1
-            }):Play()
+            local Title = Instance.new("TextLabel")
+            Title.Name = "Title"
+            Title.Parent = Toggle
+            Title.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+            Title.BackgroundTransparency = 1.000
+            Title.Position = UDim2.new(0, 8, 0, 0)
+            Title.Size = UDim2.new(1, -6, 1, 0)
+            Title.Font = Enum.Font.Gotham
+            Title.Text = text or "Toggle"
+            Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+            Title.TextSize = 14.000
+            Title.TextXAlignment = Enum.TextXAlignment.Left
+            
+            local ToggleFrame = Instance.new("Frame")
+            ToggleFrame.Name = "ToggleFrame"
+            ToggleFrame.Parent = Toggle
+            ToggleFrame.AnchorPoint = Vector2.new(1, 0.5)
+            ToggleFrame.BackgroundColor3 = Color3.fromRGB(161, 12, 59)
+            ToggleFrame.BackgroundTransparency = 1.000
+            ToggleFrame.BorderSizePixel = 0
+            ToggleFrame.Position = UDim2.new(1, -8, 0.5, 0)
+            ToggleFrame.Size = UDim2.new(0, 14, 0, 14)
+            
+            local ToggleCorner2 = Instance.new("UICorner")
+            ToggleCorner2.CornerRadius = UDim.new(0, 3)
+            ToggleCorner2.Parent = ToggleFrame
+            
+            local Check = Instance.new("ImageLabel")
+            Check.Name = "Check"
+            Check.Parent = ToggleFrame
+            Check.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+            Check.BackgroundTransparency = 1.000
+            Check.Position = UDim2.new(-0.214285731, 0, -0.214285731, 0)
+            Check.Size = UDim2.new(0, 20, 0, 20)
+            Check.Image = "http://www.roblox.com/asset/?id=7812909048"
+            Check.ImageTransparency = 1
+            Check.ScaleType = Enum.ScaleType.Fit
+            
+            local ToggleStroke = Instance.new("UIStroke")
+            ToggleStroke.Parent = ToggleFrame
+            ToggleStroke.LineJoinMode = Enum.LineJoinMode.Round
+            ToggleStroke.Thickness = 2
+            ToggleStroke.Color = Color3.fromRGB(161, 12, 59)
+            
+            local toggled = default or false
+            
+            if toggled then
+                TweenService:Create(ToggleFrame, TweenInfo.new(.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundTransparency = 0}):Play()
+                TweenService:Create(Check, TweenInfo.new(.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {ImageTransparency = 0}):Play()
+            end
+            
+            Toggle.MouseEnter:Connect(function()
+                TweenService:Create(Toggle, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundColor3 = Color3.fromRGB(40, 40, 40)}):Play()
+            end)
+            
+            Toggle.MouseLeave:Connect(function()
+                TweenService:Create(Toggle, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {BackgroundColor3 = Color3.fromRGB(35, 35, 35)}):Play()
+            end)
+            
+            Toggle.MouseButton1Click:Connect(function()
+                toggled = not toggled
+                
+                if toggled then
+                    TweenService:Create(ToggleFrame, TweenInfo.new(.1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundTransparency = 0}):Play()
+                    TweenService:Create(Check, TweenInfo.new(.1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {ImageTransparency = 0}):Play()
+                else
+                    TweenService:Create(ToggleFrame, TweenInfo.new(.1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {BackgroundTransparency = 1}):Play()
+                    TweenService:Create(Check, TweenInfo.new(.1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {ImageTransparency = 1}):Play()
+                end
+                
+                callback(toggled)
+            end)
+            
+            -- Mobile support
+            Toggle.TouchTap:Connect(function()
+                Toggle.MouseButton1Click:Fire()
+            end)
         end
-    end
-    
-    -- Establecer estado inicial
-    updateToggleState()
-    
-    -- Interacciones
-    Toggle.MouseEnter:Connect(function()
-        TweenService:Create(Toggle, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
-            BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-        }):Play()
-    end)
-    
-    Toggle.MouseLeave:Connect(function()
-        TweenService:Create(Toggle, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.In), {
-            BackgroundColor3 = Color3.fromRGB(35, 35, 35)
-        }):Play()
-    end)
-    
-    Toggle.MouseButton1Click:Connect(function()
-        toggled = not toggled
-        updateToggleState()
-        callback(toggled)
-    end)
-    
-    -- Mobile support
-    Toggle.TouchTap:Connect(function()
-        Toggle.MouseButton1Click:Fire()
-    end)
-end
         
         -- Label
         function Elements:Label(text)
@@ -1077,14 +1044,16 @@ end
             end)
             
             -- Mobile support
-            Choose.TouchTap:Connect(function()
-                Choose.InputBegan:Fire(UserInputService.CreateInputEvent(
-                    Enum.UserInputType.MouseButton1,
-                    Enum.UserInputState.Begin,
-                    0,
-                    Vector2.new(0, 0)
-                ))
-            end)
+Choose.TouchTap:Connect(function()
+    dropped = not dropped
+    if dropped then
+        Dropdown:TweenSize(UDim2.new(1, -6, 0, 34 + OptionList.AbsoluteContentSize.Y + 15), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, .15, true)
+        TweenService:Create(Arrow, TweenInfo.new(.15, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Rotation = 180}):Play()
+    else
+        TweenService:Create(Arrow, TweenInfo.new(.15, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {Rotation = 0}):Play()
+        Dropdown:TweenSize(UDim2.new(1, -6, 0, 34), Enum.EasingDirection.Out, Enum.EasingStyle.Quad, .15, true)
+    end
+end)
             
             -- Dropdown functions
             local DropdownFunctions = {}
@@ -1185,6 +1154,140 @@ end
     end
     
     return TabFunctions
+end
+
+-- ========== SISTEMA DE ICONOS FLOTANTES ==========
+Library.floatingIcons = {}
+Library.screenGui = nil
+
+function Library:CreateFloatingIcon(funcName, displayName, callback)
+    if not self.screenGui then
+        self.screenGui = Instance.new("ScreenGui")
+        self.screenGui.Name = "FloatingIcons"
+        self.screenGui.ResetOnSpawn = false
+        self.screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+        self.screenGui.Parent = CoreGui
+    end
+    
+    -- Posiciones predefinidas
+    local gridPositions = {
+        Fly = {x = 620, y = 180},
+        boogieFloat = {x = 620, y = 140},
+        WebSlinger = {x = 20, y = 120},
+        AutoLazer = {x = 620, y = 100}
+    }
+    
+    local pos = gridPositions[funcName] or {x = math.random(100, 400), y = math.random(100, 400)}
+    local displayText = displayName or funcName:sub(1, 3)
+    
+    -- Eliminar icono existente
+    if self.floatingIcons[funcName] then
+        self.floatingIcons[funcName].Main:Destroy()
+        self.floatingIcons[funcName] = nil
+    end
+    
+    -- Crear botón
+    local icon = Instance.new("TextButton")
+    icon.Name = funcName .. "Icon"
+    icon.Parent = self.screenGui
+    icon.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+    icon.BorderSizePixel = 0
+    icon.Position = UDim2.new(0, pos.x, 0, pos.y)
+    icon.Size = UDim2.new(0, 80, 0, 32)
+    icon.AutoButtonColor = false
+    icon.Text = displayText
+    icon.TextColor3 = Color3.fromRGB(255, 255, 255)
+    icon.Font = Enum.Font.GothamSemibold
+    icon.TextSize = 12
+    icon.TextWrapped = true
+    icon.Draggable = true
+    
+    local corner = Instance.new("UICorner")
+    corner.CornerRadius = UDim.new(0, 6)
+    corner.Parent = icon
+    
+    local stroke = Instance.new("UIStroke")
+    stroke.Parent = icon
+    stroke.Color = Color3.fromRGB(161, 12, 59)
+    stroke.Thickness = 1
+    
+    local dot = Instance.new("Frame")
+    dot.Parent = icon
+    dot.Size = UDim2.new(0, 6, 0, 6)
+    dot.Position = UDim2.new(1, -12, 0, 5)
+    dot.BackgroundColor3 = Color3.fromRGB(255, 50, 50)
+    dot.BorderSizePixel = 0
+    
+    local dotCorner = Instance.new("UICorner")
+    dotCorner.CornerRadius = UDim.new(1, 0)
+    dotCorner.Parent = dot
+    
+    local iconState = false
+    
+    local function updateIconVisual()
+        if iconState then
+            TweenService:Create(icon, TweenInfo.new(0.2), {
+                BackgroundColor3 = Color3.fromRGB(134, 10, 49)
+            }):Play()
+            TweenService:Create(stroke, TweenInfo.new(0.2), {
+                Color = Color3.fromRGB(232, 17, 85)
+            }):Play()
+            TweenService:Create(dot, TweenInfo.new(0.2), {
+                BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+            }):Play()
+        else
+            TweenService:Create(icon, TweenInfo.new(0.2), {
+                BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+            }):Play()
+            TweenService:Create(stroke, TweenInfo.new(0.2), {
+                Color = Color3.fromRGB(161, 12, 59)
+            }):Play()
+            TweenService:Create(dot, TweenInfo.new(0.2), {
+                BackgroundColor3 = Color3.fromRGB(255, 50, 50)
+            }):Play()
+        end
+    end
+    
+    icon.MouseButton1Click:Connect(function()
+        iconState = not iconState
+        updateIconVisual()
+        if callback then
+            callback(iconState)
+        end
+    end)
+    
+    local lastClickTime = 0
+    icon.MouseButton1Click:Connect(function()
+        local currentTime = tick()
+        if currentTime - lastClickTime < 0.3 and not iconState then
+            icon:Destroy()
+            self.floatingIcons[funcName] = nil
+        end
+        lastClickTime = currentTime
+    end)
+    
+    self.floatingIcons[funcName] = {
+        Main = icon,
+        Dot = dot,
+        UIStroke = stroke,
+        UpdateVisual = updateIconVisual,
+        SetState = function(state)
+            iconState = state
+            updateIconVisual()
+        end
+    }
+    
+    updateIconVisual()
+    return self.floatingIcons[funcName]
+end
+
+function Library:ClearFloatingIcons()
+    for funcName, iconData in pairs(self.floatingIcons) do
+        if iconData.Main and iconData.Main.Parent then
+            iconData.Main:Destroy()
+        end
+    end
+    self.floatingIcons = {}
 end
 
 return Library
