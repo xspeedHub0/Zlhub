@@ -590,7 +590,7 @@ function Elements:Toggle(text, default, callback)
             }):Play()
             
             TweenService:Create(SwitchContainerStroke, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
-                Color = Color3.fromRGB(0, 140, 255)
+                Color = Color3.fromRGB(136, 8, 8)
             }):Play()
             
             TweenService:Create(SwitchCircle, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
