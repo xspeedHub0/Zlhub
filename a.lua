@@ -666,51 +666,23 @@ function Elements:Toggle(text, default, callback)
         }):Play()
     end
     
-    -- En lugar de Frame, usa TextButton para SwitchContainer
-    local SwitchContainer = Instance.new("TextButton")
-    SwitchContainer.Name = "SwitchContainer"
-    SwitchContainer.Parent = Toggle
-    SwitchContainer.AnchorPoint = Vector2.new(1, 0.5)
-    SwitchContainer.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-    SwitchContainer.BorderSizePixel = 0
-    SwitchContainer.Position = UDim2.new(1, -8, 0.5, 0)
-    SwitchContainer.Size = UDim2.new(0, 36, 0, 20)
-    SwitchContainer.Text = ""  -- Texto vacío
-    SwitchContainer.AutoButtonColor = false 
-    local SwitchCircle = Instance.new("TextButton")
-    SwitchCircle.Name = "SwitchCircle"
-    SwitchCircle.Parent = SwitchContainer
-    SwitchCircle.AnchorPoint = Vector2.new(0, 0.5)
-    SwitchCircle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-    SwitchCircle.BorderSizePixel = 0
-    SwitchCircle.Position = UDim2.new(0, 2, 0.5, 0)
-    SwitchCircle.Size = UDim2.new(0, 16, 0, 16)
-    SwitchCircle.Text = ""  -- Texto vacío
-    SwitchCircle.AutoButtonColor = false         
-    -- Mobile support
-    Toggle.TouchTap:Connect(function()
-        Toggle.MouseButton1Click:Fire()
-    end)
-    
-    SwitchContainer.TouchTap:Connect(function()
-        SwitchContainer.MouseButton1Click:Fire()
-    end)
-    
-    -- Función para cambiar el estado externamente
-    local toggleFunctions = {}
-    
-    function toggleFunctions:SetState(newState)
-        toggled = newState
+SwitchContainer.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        toggled = not toggled
+        circlePressEffect()
         updateSwitchAnimation()
         callback(toggled)
     end
-    
-    function toggleFunctions:GetState()
-        return toggled
+end)
+
+SwitchCircle.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        toggled = not toggled
+        circlePressEffect()
+        updateSwitchAnimation()
+        callback(toggled)
     end
-    
-    return toggleFunctions
-end
+end)
         
         -- Label
         function Elements:Label(text)
