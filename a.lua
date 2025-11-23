@@ -586,7 +586,7 @@ function Elements:Toggle(text, default, callback)
         if toggled then
             -- Estado ACTIVADO
             TweenService:Create(SwitchContainer, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
-                BackgroundColor3 = Color3.fromRGB(0, 170, 255)
+                BackgroundColor3 = Color3.fromRGB(255, 0, 0) -- 0, 170, 255 xd
             }):Play()
             
             TweenService:Create(SwitchContainerStroke, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
