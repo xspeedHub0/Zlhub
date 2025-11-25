@@ -518,6 +518,14 @@ function Elements:Container(name)
     Container.BorderSizePixel = 0
     Container.Size = UDim2.new(1, -6, 0, 34)
 
+    -- Agregar un botón transparente sobre el frame
+    local ClickButton = Instance.new("TextButton")
+    ClickButton.Name = "ClickButton"
+    ClickButton.Parent = Container
+    ClickButton.BackgroundTransparency = 1
+    ClickButton.Size = UDim2.new(1, 0, 1, 0)
+    ClickButton.Text = ""
+    ClickButton.ZIndex = 10
     local ContainerCorner = Instance.new("UICorner")
     ContainerCorner.CornerRadius = UDim.new(0, 6)
     ContainerCorner.Parent = Container
