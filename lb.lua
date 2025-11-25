@@ -612,7 +612,6 @@ function Elements:Container(name)
         end
     end
 
-    ExpandButton.MouseButton1Click:Connect(toggleContainer)
     Container.MouseButton1Click:Connect(toggleContainer)
 
     -- Funciones del container
