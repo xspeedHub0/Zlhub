@@ -510,7 +510,7 @@ end)
         end
         
         -- Container function
-Elements:Container(name)
+function Elements:Container(name)
     local Container = Instance.new("Frame")
     Container.Name = "Container"
     Container.Parent = Page
