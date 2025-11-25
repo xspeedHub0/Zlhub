@@ -509,157 +509,7 @@ end)
             end)
         end
         
-        -- Container function
-function Elements:Container(name)
-    local Container = Instance.new("Frame")
-    Container.Name = "Container"
-    Container.Parent = Page
-    Container.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-    Container.BorderSizePixel = 0
-    Container.Size = UDim2.new(1, -6, 0, 34)
-
-    -- Agregar un botón transparente sobre el frame
-    local ClickButton = Instance.new("TextButton")
-    ClickButton.Name = "ClickButton"
-    ClickButton.Parent = Container
-    ClickButton.BackgroundTransparency = 1
-    ClickButton.Size = UDim2.new(1, 0, 1, 0)
-    ClickButton.Text = ""
-    ClickButton.ZIndex = 10
-    local ContainerCorner = Instance.new("UICorner")
-    ContainerCorner.CornerRadius = UDim.new(0, 6)
-    ContainerCorner.Parent = Container
-
-    local ContainerStroke = Instance.new("UIStroke")
-    ContainerStroke.Parent = Container
-    ContainerStroke.Color = Color3.fromRGB(80, 80, 80)
-    ContainerStroke.Thickness = 1
-
-    -- Container Title
-    local Title = Instance.new("TextLabel")
-    Title.Name = "Title"
-    Title.Parent = Container
-    Title.BackgroundTransparency = 1
-    Title.Position = UDim2.new(0, 12, 0, 0)
-    Title.Size = UDim2.new(1, -12, 1, 0)
-    Title.Font = Enum.Font.GothamBold
-    Title.Text = name or "Container"
-    Title.TextColor3 = Color3.fromRGB(255, 255, 255)
-    Title.TextSize = 14
-    Title.TextXAlignment = Enum.TextXAlignment.Left
-
-    -- Expand/Collapse Button
-    local ExpandButton = Instance.new("ImageButton")
-    ExpandButton.Name = "ExpandButton"
-    ExpandButton.Parent = Container
-    ExpandButton.AnchorPoint = Vector2.new(1, 0.5)
-    ExpandButton.BackgroundTransparency = 1
-    ExpandButton.Position = UDim2.new(1, -8, 0.5, 0)
-    ExpandButton.Size = UDim2.new(0, 20, 0, 20)
-    ExpandButton.Image = "rbxassetid://3926307971"
-    ExpandButton.ImageColor3 = Color3.fromRGB(200, 200, 200)
-    ExpandButton.ImageRectOffset = Vector2.new(324, 364)
-    ExpandButton.ImageRectSize = Vector2.new(36, 36)
-
-    -- Content Frame (inicialmente oculto)
-    local Content = Instance.new("Frame")
-    Content.Name = "Content"
-    Content.Parent = Container
-    Content.BackgroundTransparency = 1
-    Content.Position = UDim2.new(0, 0, 1, 5)
-    Content.Size = UDim2.new(1, 0, 0, 0)
-    Content.Visible = false
-
-    local ContentList = Instance.new("UIListLayout")
-    ContentList.Parent = Content
-    ContentList.HorizontalAlignment = Enum.HorizontalAlignment.Center
-    ContentList.SortOrder = Enum.SortOrder.LayoutOrder
-    ContentList.Padding = UDim.new(0, 6)
-
-    local expanded = false
-
-    -- Función para expandir/contraer
-    local function toggleContainer()
-        expanded = not expanded
-        
-        if expanded then
-            -- Expandir
-            TweenService:Create(ExpandButton, TweenInfo.new(0.2), {Rotation = 180}):Play()
-            TweenService:Create(Container, TweenInfo.new(0.2), {
-                BackgroundColor3 = Color3.fromRGB(45, 45, 45)
-            }):Play()
-            Content.Visible = true
-            
-            -- Calcular altura del contenido
-            local contentHeight = 0
-            for _, child in ipairs(Content:GetChildren()) do
-                if child:IsA("Frame") or child:IsA("TextButton") then
-                    contentHeight = contentHeight + child.Size.Y.Offset + 6
-                end
-            end
-            
-            Container.Size = UDim2.new(1, -6, 0, 34 + contentHeight)
-            Content.Size = UDim2.new(1, 0, 0, contentHeight)
-            
-        else
-            -- Contraer
-            TweenService:Create(ExpandButton, TweenInfo.new(0.2), {Rotation = 0}):Play()
-            TweenService:Create(Container, TweenInfo.new(0.2), {
-                BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-            }):Play()
-            Content.Visible = false
-            Container.Size = UDim2.new(1, -6, 0, 34)
-        end
-    end
-
-    ExpandButton.MouseButton1Click:Connect(toggleContainer)
-    
-    -- Funciones del container
-    local ContainerFunctions = {}
-
-    function ContainerFunctions:Button(text, callback)
-        local Button = Instance.new("TextButton")
-        Button.Name = "Button"
-        Button.Parent = Content
-        Button.BackgroundColor3 = Color3.fromRGB(134, 10, 49)
-        Button.BorderSizePixel = 0
-        Button.Size = UDim2.new(1, -6, 0, 34)
-        Button.AutoButtonColor = false
-        Button.Font = Enum.Font.Gotham
-        Button.Text = text or "Button"
-        Button.TextColor3 = Color3.fromRGB(255, 255, 255)
-        Button.TextSize = 14.000
-
-        local ButtonCorner = Instance.new("UICorner")
-        ButtonCorner.CornerRadius = UDim.new(0, 6)
-        ButtonCorner.Parent = Button
-
-        Button.MouseEnter:Connect(function()
-            TweenService:Create(Button, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(160, 12, 59)}):Play()
-        end)
-
-        Button.MouseLeave:Connect(function()
-            TweenService:Create(Button, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(134, 10, 49)}):Play()
-        end)
-
-        Button.MouseButton1Click:Connect(function()
-            callback()
-        end)
-
-        -- Actualizar tamaño del container si está expandido
-        if expanded then
-            toggleContainer()
-            toggleContainer()
-        end
-    end
-
-    -- Agregar más métodos similares para Toggle, Slider, etc.
-
-    return ContainerFunctions
-end
-        
-        
-        
+       
         
         -- Toggle
 -- Toggle con animación de switch estilo iOS
@@ -859,6 +709,157 @@ end)
     end
     
     return toggleFunctions
+end
+
+
+
+
+function Elements:Container(name)
+    local Container = Instance.new("Frame")
+    Container.Name = "Container"
+    Container.Parent = Page
+    Container.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+    Container.BorderSizePixel = 0
+    Container.Size = UDim2.new(1, -6, 0, 34)
+
+    -- Agregar un botón transparente sobre el frame
+    local ClickButton = Instance.new("TextButton")
+    ClickButton.Name = "ClickButton"
+    ClickButton.Parent = Container
+    ClickButton.BackgroundTransparency = 1
+    ClickButton.Size = UDim2.new(1, 0, 1, 0)
+    ClickButton.Text = ""
+    ClickButton.ZIndex = 10
+    local ContainerCorner = Instance.new("UICorner")
+    ContainerCorner.CornerRadius = UDim.new(0, 6)
+    ContainerCorner.Parent = Container
+
+    local ContainerStroke = Instance.new("UIStroke")
+    ContainerStroke.Parent = Container
+    ContainerStroke.Color = Color3.fromRGB(80, 80, 80)
+    ContainerStroke.Thickness = 1
+
+    -- Container Title
+    local Title = Instance.new("TextLabel")
+    Title.Name = "Title"
+    Title.Parent = Container
+    Title.BackgroundTransparency = 1
+    Title.Position = UDim2.new(0, 12, 0, 0)
+    Title.Size = UDim2.new(1, -12, 1, 0)
+    Title.Font = Enum.Font.GothamBold
+    Title.Text = name or "Container"
+    Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+    Title.TextSize = 14
+    Title.TextXAlignment = Enum.TextXAlignment.Left
+
+    -- Expand/Collapse Button
+    local ExpandButton = Instance.new("ImageButton")
+    ExpandButton.Name = "ExpandButton"
+    ExpandButton.Parent = Container
+    ExpandButton.AnchorPoint = Vector2.new(1, 0.5)
+    ExpandButton.BackgroundTransparency = 1
+    ExpandButton.Position = UDim2.new(1, -8, 0.5, 0)
+    ExpandButton.Size = UDim2.new(0, 20, 0, 20)
+    ExpandButton.Image = "rbxassetid://3926307971"
+    ExpandButton.ImageColor3 = Color3.fromRGB(200, 200, 200)
+    ExpandButton.ImageRectOffset = Vector2.new(324, 364)
+    ExpandButton.ImageRectSize = Vector2.new(36, 36)
+
+    -- Content Frame (inicialmente oculto)
+    local Content = Instance.new("Frame")
+    Content.Name = "Content"
+    Content.Parent = Container
+    Content.BackgroundTransparency = 1
+    Content.Position = UDim2.new(0, 0, 1, 5)
+    Content.Size = UDim2.new(1, 0, 0, 0)
+    Content.Visible = false
+
+    local ContentList = Instance.new("UIListLayout")
+    ContentList.Parent = Content
+    ContentList.HorizontalAlignment = Enum.HorizontalAlignment.Center
+    ContentList.SortOrder = Enum.SortOrder.LayoutOrder
+    ContentList.Padding = UDim.new(0, 6)
+
+    local expanded = false
+
+    -- Función para expandir/contraer
+    local function toggleContainer()
+        expanded = not expanded
+        
+        if expanded then
+            -- Expandir
+            TweenService:Create(ExpandButton, TweenInfo.new(0.2), {Rotation = 180}):Play()
+            TweenService:Create(Container, TweenInfo.new(0.2), {
+                BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+            }):Play()
+            Content.Visible = true
+            
+            -- Calcular altura del contenido
+            local contentHeight = 0
+            for _, child in ipairs(Content:GetChildren()) do
+                if child:IsA("Frame") or child:IsA("TextButton") then
+                    contentHeight = contentHeight + child.Size.Y.Offset + 6
+                end
+            end
+            
+            Container.Size = UDim2.new(1, -6, 0, 34 + contentHeight)
+            Content.Size = UDim2.new(1, 0, 0, contentHeight)
+            
+        else
+            -- Contraer
+            TweenService:Create(ExpandButton, TweenInfo.new(0.2), {Rotation = 0}):Play()
+            TweenService:Create(Container, TweenInfo.new(0.2), {
+                BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+            }):Play()
+            Content.Visible = false
+            Container.Size = UDim2.new(1, -6, 0, 34)
+        end
+    end
+        Container.MouseButton1Click:Connect(toggleContainer)
+        ExpandButton.MouseButton1Click:Connect(toggleContainer)
+    
+    -- Funciones del container
+    local ContainerFunctions = {}
+
+    function ContainerFunctions:Button(text, callback)
+        local Button = Instance.new("TextButton")
+        Button.Name = "Button"
+        Button.Parent = Content
+        Button.BackgroundColor3 = Color3.fromRGB(134, 10, 49)
+        Button.BorderSizePixel = 0
+        Button.Size = UDim2.new(1, -6, 0, 34)
+        Button.AutoButtonColor = false
+        Button.Font = Enum.Font.Gotham
+        Button.Text = text or "Button"
+        Button.TextColor3 = Color3.fromRGB(255, 255, 255)
+        Button.TextSize = 14.000
+
+        local ButtonCorner = Instance.new("UICorner")
+        ButtonCorner.CornerRadius = UDim.new(0, 6)
+        ButtonCorner.Parent = Button
+
+        Button.MouseEnter:Connect(function()
+            TweenService:Create(Button, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(160, 12, 59)}):Play()
+        end)
+
+        Button.MouseLeave:Connect(function()
+            TweenService:Create(Button, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(134, 10, 49)}):Play()
+        end)
+
+        Button.MouseButton1Click:Connect(function()
+            callback()
+        end)
+
+        -- Actualizar tamaño del container si está expandido
+        if expanded then
+            toggleContainer()
+            toggleContainer()
+        end
+    end
+
+    -- Agregar más métodos similares para Toggle, Slider, etc.
+
+    return ContainerFunctions
 end
         
         -- Label
