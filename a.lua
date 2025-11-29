@@ -1277,7 +1277,8 @@ function Library:CreateFloatingIcon(funcName, displayName, callback)
         Fly = {x = 620, y = 180},
         boogieFloat = {x = 620, y = 140},
         WebSlinger = {x = 20, y = 120},
-        AutoLazer = {x = 620, y = 100}
+        AutoLazer = {x = 620, y = 100},
+        Desync = {x = 620, y = 180}
     }
     
     local pos = gridPositions[funcName] or {x = math.random(100, 400), y = math.random(100, 400)}
