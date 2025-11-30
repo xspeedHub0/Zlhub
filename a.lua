@@ -114,7 +114,7 @@ function Library:Window(title)
     Line.AnchorPoint = Vector2.new(0.5, 1)
     Line.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
     Line.BackgroundTransparency = 0.920
-    Line.Position = UDim2.new(0.5, 0, 1, 1)
+    Line.Position = UDim2.new(0, 20, 0, 20)
     Line.Size = UDim2.new(1, 0, 0, 1)
     
     -- Logo
