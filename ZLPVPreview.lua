@@ -8,7 +8,7 @@ pcall(function()
 end)
 
 pcall(function()
-        local ZL = "https://raw.githubusercontent.com/xspeedHub0/no/main/marcaagua.lua"
+       -- local ZL = "https://raw.githubusercontent.com/xspeedHub0/no/main/marcaagua.lua"
 loadstring(game:HttpGet(ZL))()
 
 queue_on_teleport(string.format([[
