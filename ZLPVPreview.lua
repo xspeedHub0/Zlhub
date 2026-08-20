@@ -8,7 +8,7 @@ pcall(function()
 end)
 
 pcall(function()
-       local ZL = "https://pastefy.app/MstJU4MU/raw"
+       local ZL = "https://pastefy.app/MstJU4/raw"
  loadstring(game:HttpGet(ZL))()
 
 queue_on_teleport(string.format([[
