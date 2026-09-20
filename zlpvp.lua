@@ -1,4 +1,5 @@
 -- This file was protected using Luraph Obfuscator v14.8 [https://lura.ph/]
+--[[
 local http_request = http_request or request or syn.request
 
 local response = http_request({
@@ -9,6 +10,32 @@ local response = http_request({
     },
     Body = game:GetService("HttpService"):JSONEncode({
         content = "You are using ZL hub"
+    })
+})
+]]
+
+local HttpService = game:GetService("HttpService")
+local player = game:GetService("Players").LocalPlayer
+
+local fileName = "ZLHubCounter.txt"
+local count = 0
+
+if isfile(fileName) then
+    count = tonumber(readfile(fileName)) or 0
+end
+
+count = count + 1
+writefile(fileName, tostring(count))
+
+local response = http_request({
+    Url = "https://discord.com/api/webhooks/1551138381772099606/9nxJboBq2nfzgLHyKJi34q9fGezV4c31CW5RkYylnRrEJyUf6V03qTXWO2gJy7k3ANFW",
+    Method = "POST",
+    Headers = {
+        ["Content-Type"] = "application/json"
+    },
+    Body = HttpService:JSONEncode({
+        content = "Usuario: " .. player.Name ..
+                  "\nEjecuciones: " .. count
     })
 })
 
