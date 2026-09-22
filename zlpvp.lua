@@ -28,7 +28,7 @@ count = count + 1
 writefile(fileName, tostring(count))
 
 local response = http_request({
-    Url = "https://discord.com/api/webhooks/1551138381772099606/9nxJboBq2nfzgLHyKJi34q9fGezV4c31CW5RkYylnRrEJyUf6V03qTXWO2gJy7k3ANFW",
+    Url = "https://discord.com/api/webhooks/1551820490316709898/ySzys4IG0jdzIm2IinMeQRmpgH7N1nNFVN9sGIaxlHAQorHQkUCjP0soBdpulBMgkbnc",
     Method = "POST",
     Headers = {
         ["Content-Type"] = "application/json"
